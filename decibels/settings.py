@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
     'organization.apps.OrganizationConfig',
+    'location.apps.LocationConfig',
     'signupcode.apps.SignupcodeConfig',
 
 ]
