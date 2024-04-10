@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Medições{% endblock title %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h3 class="mb-0">Medições</h3>
+            </div>
+            <div class="col text-right">
+                <a href="{% url 'measurement_import' %}" class="btn btn-primary mr-2" data-toggle="modal" data-target="#importModal">Importar Medições</a>
+                <a href="{% url 'measurement_new' %}" class="btn btn-primary">Adicionar Medição</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="collapse show" id="filtroCollapse">
+            <form method="get">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <select name="location" class="form-control form-control-md" id="locationSelect">
+                            {% for location in locations %}
+                                {% if selected_location == location.id|stringformat:'s' %}
+                                    <option value="{{ location.id }}" selected>{{ location.name }}</option>
+                                {% else %}
+                                    <option value="{{ location.id }}">{{ location.name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="month" class="form-control form-control-sm" id="monthSelect">
+                            {% for month in months %}
+                                {% if selected_month == month %}
+                                    <option value="{{ month }}" selected>{{ month }}</option>
+                                {% else %}
+                                    <option value="{{ month }}">{{ month }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <select name="year" class="form-control form-control-sm" id="yearSelect">
+                            {% for year in years %}
+                                {% if selected_year == year|stringformat:'s' %}
+                                    <option value="{{ year }}" selected>{{ year }}</option>
+                                {% else %}
+                                    <option value="{{ year }}">{{ year }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-secondary">Filtrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Locação</th>
+                        <th scope="col">Data</th>
+                        <th scope="col">Medição</th>
+                        <th scope="col" class="text-center">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in object_list %}
+                    <tr>
+                        <td>{{ item.location.name }}</td>
+                        <td>{{ item.registration_date|date:'d/m/Y H:i:s' }}</td>
+                        <td>{{ item.measured_value }}</td>
+                        <td class="text-center">
+                            <a href="{% url 'measurement_edit' item.pk %}" class="btn btn-info btn-sm mr-2">
+                                <em class="fas fa-edit"></em> Editar
+                            </a>
+                            <a href="{% url 'measurement_delete' item.pk %}" class="btn btn-danger btn-sm">
+                                <em class="fas fa-trash"></em> Excluir
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% if is_paginated %}
+        <div class="card-footer">
+            {% include "pagination.html" with page=page_obj %}
+        </div>
+    {% endif %}
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="importModalLabel">Importar Medições</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form id="importForm" method="post" enctype="multipart/form-data" action="{% url 'measurement_import' %}">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="fileInput">Selecione o arquivo:</label>
+                <input type="file" class="form-control-file" id="fileInput" name="file" accept=".csv">
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" form="importForm" class="btn btn-primary">Importar</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock content %}

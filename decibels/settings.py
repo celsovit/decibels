@@ -52,8 +52,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'organization.apps.OrganizationConfig',
     'location.apps.LocationConfig',
+    'measurement.apps.MeasurementConfig',
     'signupcode.apps.SignupcodeConfig',
-
 ]
 
 MIDDLEWARE = [
