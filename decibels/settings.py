@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 from decouple import config, Csv
 
@@ -47,7 +48,10 @@ INSTALLED_APPS = [
 
     # Local
     'decibels.apps.DecibelsConfig',
+    'core.apps.CoreConfig',
     'users.apps.UsersConfig',
+    'organization.apps.OrganizationConfig',
+    'signupcode.apps.SignupcodeConfig',
 
 ]
 
@@ -137,6 +141,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+PROJECT_ROOT = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, '../apps'))
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

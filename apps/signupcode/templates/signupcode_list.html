@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Autorizações de Registro{% endblock title %}
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col">
+                    <h3 class="mb-0">Autorizações de Registro</h3>
+                </div>
+                <div class="col text-right">
+                    <a href="{% url 'signupcode_new' %}" class="btn btn-primary">Adicionar</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">E-mail</th>
+                        <th scope="col" style="width: 112px" class="text-center">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in object_list %}
+                    <tr>
+                        <td class="align-middle">{{ item.email }}</td>
+                        <td class="align-middle text-center">
+                            <a href="{% url 'signupcode_edit' item.pk %}" class="mr-2">
+                                <em class="fas fa-edit text-info"></em>
+                            </a>
+                            <a href="{% url 'signupcode_delete' item.pk %}">
+                                <em class="fas fa-trash text-danger"></em>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if is_paginated %}
+                <div class="card-footer">
+                    {% include "pagination.html" with page=page_obj %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock content %}

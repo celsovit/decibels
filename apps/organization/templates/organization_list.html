@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Organizações{% endblock title %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h3 class="mb-0">Organizações</h3>
+            </div>
+            <div class="col-auto">
+                <a href="{% url 'organization_new' %}" class="btn btn-primary">Adicionar</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Nome</th>
+                        <th scope="col" class="text-center">Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in object_list %}
+                    <tr>
+                        <td class="align-middle">{{ item.name }}</td>
+                        <td class="align-middle text-center">
+                            <a href="{% url 'organization_edit' item.pk %}" class="btn btn-info btn-sm mr-2">
+                                <em class="fas fa-edit"></em> Editar
+                            </a>
+                            <a href="{% url 'organization_delete' item.pk %}" class="btn btn-danger btn-sm">
+                                <em class="fas fa-trash"></em> Excluir
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if is_paginated %}
+            <div class="card-footer">
+                {% include "pagination.html" with page=page_obj %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}

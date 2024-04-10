@@ -5,6 +5,7 @@
 ```bash
 $ pip install python-decouple
 $ pip install crispy-bootstrap4
+$ pip install Pillow
 ```
 
 ## Começando um projeto
@@ -60,7 +61,7 @@ $ python manage.py runserver
 # INTERROMPA PARA PROSSEGUIR
 
 # criar primeiro app
-$ mkdir ./apps/core
+$ mkdir -p ./apps/core
 $ django-admin startapp core ./apps/core
 
 # abre projeto no VS Code
