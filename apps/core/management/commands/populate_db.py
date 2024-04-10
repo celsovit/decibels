@@ -6,17 +6,17 @@ import random
 from measurement.models import Measurement
 from location.models import Location
 from organization.models import Organization
+from users.models import CustomUser
+from django.db import transaction
 
 
 class Command(BaseCommand):
     help = 'Popula o banco de dados com dados gerados randomicamente.'
 
-
     def add_arguments(self, parser):
         parser.add_argument('start_date', type=str, nargs='?', default=None, help='Data inicial no formato YYYY-MM-DD')
         parser.add_argument('end_date', type=str, nargs='?', default=None, help='Data final no formato YYYY-MM-DD')
         parser.add_argument('--no_truncate', action='store_true', default=False, help='Excluir dados existentes antes de executar')
-
 
     def handle(self, *args, **kwargs):
         start_date_str = kwargs['start_date']
@@ -33,26 +33,35 @@ class Command(BaseCommand):
         else:
             self.end_date = Command.get_last_date_of_year(self.start_date)
         
-        self.populate_measurements(truncate)
+        with transaction.atomic():
+            self.create_organization()
+            self.create_user()
+            self.populate_measurements(truncate)
+        
         self.stdout.write(self.style.SUCCESS('Banco de dados populado com sucesso.'))
-
 
     def populate_measurements(self, truncate):
         if truncate:
             Measurement.objects.all().delete()
-
-        organization = Organization.objects.get(pk=1)
-        locations = ('Dante Rodini', 'Biblioteca', 'Lago', 'RH', 'Pq Ecológico', 'Rodoviária', 'Caic', 'Terminal', )
+         
+        locations = (
+           'Dante Rodini',
+           'Biblioteca', 
+           'Lago', 
+           'RH', 
+           'Pq Ecológico', 
+           'Rodoviária', 
+           'Caic', 
+           'Terminal', 
+        )
 
         for local_str in locations:
-
+            organization = Organization.objects.get(pk=1)
             location = Location.objects.get_or_create(name=local_str, organization=organization)[0]
-
             measurements = []
 
             current_date = self.start_date
             while current_date <= self.end_date:
-
                 if current_date.weekday() == 5:
                     # salta fim de semana
                     current_date += timedelta(days=2)
@@ -84,6 +93,20 @@ class Command(BaseCommand):
 
             Measurement.objects.bulk_create(measurements)
 
+    def create_user(self):
+        organization = Organization.objects.get(pk=1)
+        if not CustomUser.objects.filter(username='user').exists():
+            user = CustomUser.objects.create_user('user', 'user@example.com', 'user')
+            user.organization = organization
+            user.first_name='user'
+            user.save()
+
+    def create_organization(self):
+        if not Organization.objects.filter(pk=1).exists():
+            organization, created = Organization.objects.get_or_create(pk=1, defaults={
+               'name': 'Nome da Organização',
+               'image_file': 'brasoes/brasao_araras.png'
+            })
 
     @staticmethod
     def get_last_date_of_year(date):
