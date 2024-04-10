@@ -98,7 +98,7 @@ class Command(BaseCommand):
         if not CustomUser.objects.filter(username='user').exists():
             user = CustomUser.objects.create_user('user', 'user@example.com', 'user')
             user.organization = organization
-            user.first_name='user'
+            user.first_name='Lovelace'
             user.save()
 
     def create_organization(self):

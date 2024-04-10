@@ -2,29 +2,31 @@
 
 
 ## 📦 Baixando e executando o projeto
-Abra um terminal de comandos e proceda conforme abaixo. Ao final será iniciado o servidor e será possível acessar a aplicação no navegador a partir da url `http://localhost:8000`
+
+Abra um terminal de comandos e proceda conforme abaixo:
 
 ```bash
-# pasta home como a atual
 $ cd ~
-
-# clonar projeto a partir do GitHub
 $ git clone https://github.com/celsovit/decibels.git
-
-# acessar a pasta do projeto
 $ cd decibels
 
-# criar um ambiente virtual
-$ python3 -m venv venv
-
-# ativar o ambiente virtual criado
+$ python -m venv venv
 $ source venv/bin/activate
 
-# instalar as dependências
 $ pip install -r requirements.txt
+$ python generate_env.py
 
-# iniciar o servidor
-$ python3 manage.py runserver
+$ python manage.py migrate
+$ python manage.py populate_db
+
+$ python manage.py runserver
+```
+
+ No navegador acesse: [http://localhost:8000](http://localhost:8000)
+
+```text
+usuário: user
+senha  : user
 ```
 
 
