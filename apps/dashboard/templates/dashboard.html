@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_script %}
+    <script src="{% static 'js/charts/load_data.js' %}"></script>
+{% endblock head_script %}
+
+{% block title %}Dashboard{% endblock title %}
+
+{% block organization %}
+  <a class="navbar-brand" href="{% url 'home' %}">{{ user.organization.name }}</a> ::
+{% endblock organization %}
+
+
+{% block content %}
+
+    <div class="container">
+
+      <form id="filterForm" class="d-flex justify-content-between align-items-end">
+        <div class="d-flex align-items-end">
+          <div class="form-group mb-0">
+            <label for="year">Ano:</label>
+            <select name="year" id="year" class="form-control" style="width: 85px;"></select>
+          </div>
+          <input type="submit" value="Carregar" name="_load" class="btn btn-primary ml-2">
+        </div>
+        <div class="d-flex align-items-end">
+          <!-- <img src="{% static 'brasoes/sua_imagem.jpg' %}" alt="Logo da empresa" class="img-fluid" style="max-height: 50px;"> -->
+          {% if organization_image_url %}
+            <img src="{{ organization_image_url }}" alt="Logo da organização" style="max-height: 100px;">
+          {% endif %}
+        </div>
+      </form>
+
+      <div class="card bg-light mt-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <canvas id="monthlyAverageChart"></canvas>
+            </div>
+            <div class="col-6">
+              <canvas id="topPeakWeekdaysChart"></canvas>
+            </div>
+            <div class="col-6">
+              <canvas id="locationsAverageChart"></canvas>
+            </div>
+            <div class="col-6">
+              <canvas id="topPeakTimesChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script src="{% static 'js/charts/charts_config.js' %}"></script>
+    </div>
+
+{% endblock content %}    
+

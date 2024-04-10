@@ -12,6 +12,7 @@ urlpatterns = [
     path('location/', include('location.urls')),
     path('measurement/', include('measurement.urls')),
     path('signupcode/', include('signupcode.urls')),
+    path('dashboard/', include('dashboard.urls')),
     path('', include('core.urls')),
 ]
 

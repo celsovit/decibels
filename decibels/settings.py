@@ -47,13 +47,13 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
 
     # Local
-    'decibels.apps.DecibelsConfig',
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
     'organization.apps.OrganizationConfig',
     'location.apps.LocationConfig',
     'measurement.apps.MeasurementConfig',
     'signupcode.apps.SignupcodeConfig',
+    'dashboard.apps.DashboardConfig',
 ]
 
 MIDDLEWARE = [
@@ -143,6 +143,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+# Localização dos Apps: subpasta 'apps'
 PROJECT_ROOT = os.path.dirname(__file__)
 sys.path.insert(0, os.path.join(PROJECT_ROOT, '../apps'))
 
