@@ -11,7 +11,6 @@ As métricas coletadas pelo decibelímetro podem ser importadas a partir de um a
 | ID Locação | Data de Registro | Valor Medido |
 |-------------|-------------|-------------|
 | 000 | yyyy-mm-dd hh:mm:ss | 00000,0000
-| 000 | yyyy-mm-dd hh:mm:ss | 00000,0000
 
 Arquivo Exemplo:
 
