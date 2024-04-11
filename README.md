@@ -1,6 +1,6 @@
 # Projeto Decibels
 
-Esta aplicação tem como objetivo apresentar gráficos dos valores coletados por um decibelímetro baseado no Arduino Uno. Ele permite monitorar diferentes locais e estabelecer limites ideais para cada um deles.
+Esta aplicação tem como objetivo apresentar gráficos dos valores coletados por um decibelímetro baseado no Arduino Uno. Ela permite monitorar diferentes locais e estabelecer limites ideais para cada um deles.
 
 Um usuário administrador pode autorizar o registro de novos usuários fornecendo seus e-mails para acesso à aplicação. O novo usuário receberá um código de autorização permitindo-o se registrar.
 
