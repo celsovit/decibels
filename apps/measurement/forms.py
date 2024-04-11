@@ -12,3 +12,8 @@ class MeasurementForm(forms.ModelForm):
         # filtrar locations da organization do usuário
         super(MeasurementForm, self).__init__(*args, **kwargs)
         self.fields['location'].queryset = Location.objects.filter(organization=user.organization)
+
+
+        self.fields['registration_date'].widget = forms.TextInput(
+            attrs={'type': 'datetime-local', 'class': 'form-control form-control-sm', 'style': 'height: 38px;'}
+        )

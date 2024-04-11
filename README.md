@@ -1,5 +1,25 @@
 # Projeto Decibels
 
+Esta aplicação tem como objetivo apresentar gráficos dos valores coletados por um decibelímetro baseado no Arduino Uno. Ele permite monitorar diferentes locais e estabelecer limites ideais para cada um deles.
+
+Um usuário administrador pode autorizar o registro de novos usuários fornecendo seus e-mails para acesso à aplicação. O novo usuário receberá um código de autorização permitindo-o se registrar.
+
+Um usuário administrador pode autorizar novos usuários fornecendo seus endereços de e-mail para acesso à aplicação. Então, o novo usuário receberá um código de autorização exclusivo que permitirá o registro.
+
+As métricas coletadas pelo decibelímetro podem ser importadas a partir de um arquivo CSV com o seguinte layout:
+
+| ID Locação | Data de Registro | Valor Medido |
+|-------------|-------------|-------------|
+| 000 | yyyy-mm-dd hh:mm:ss | 00000,0000
+| 000 | yyyy-mm-dd hh:mm:ss | 00000,0000
+
+Arquivo Exemplo:
+
+```csv
+3,2024-04-10 10:35:18,35.2500
+3,2024-04-11 10:38:18,36.1400
+3,2024-04-11 12:28:03,63.2500
+```
 
 ## 📦 Baixando e executando o projeto
 

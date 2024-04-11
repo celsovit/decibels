@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.utils.timezone import make_aware
 from django.views.generic import View, ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.exceptions import ValidationError
@@ -8,6 +9,7 @@ from django.urls import reverse, reverse_lazy
 from datetime import datetime
 import csv
 
+from utils.datetime_custom import get_start_of_day, get_end_of_day
 from utils.datetime_pt import MONTHS, YEARS
 from .forms import MeasurementForm
 from .models import Measurement
@@ -21,41 +23,42 @@ class MeasurementListView(ListView):
     paginate_by = 8
 
     def get_queryset(self):
-        parameters = MeasurementListView.get_parameters(self.request.GET)
+        query_params = MeasurementListView.get_parameters(self.request.GET)
         user = self.request.user
 
-        if not parameters['location'] or not parameters['month'] or not parameters['year']:
-            return []
+        if MeasurementListView.has_parameters(query_params):
+            start_date_str = f'{query_params['start_date']}:00'
+            end_date_str = f'{query_params['end_date']}:59'
 
-        month_number = MONTHS.index(parameters['month']) + 1
+            start_date = make_aware(datetime.strptime(start_date_str, '%Y-%m-%dT%H:%M:%S'))
+            end_date = make_aware(datetime.strptime(end_date_str, '%Y-%m-%dT%H:%M:%S'))
 
-        return (
-            Measurement.objects.filter(
-                location__organization=user.organization,
-                location=parameters['location'],
-                registration_date__year=parameters['year'],
-                registration_date__month=month_number
-            ).order_by('registration_date')
-        )
+            return (
+                Measurement.objects.filter(
+                    location__organization=user.organization,
+                    location=query_params['location'],
+                    registration_date__range=(start_date, end_date)
+                ).order_by('registration_date')
+            )
+        
+        return []
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
 
-        filter = MeasurementListView.get_parameters(self.request.GET)
+        query_params = MeasurementListView.get_parameters(self.request.GET)
 
         context['locations'] = Location.objects.filter(organization=user.organization).order_by('name')
-        context['months'] = MONTHS
-        context['years'] = YEARS
 
-        if filter['location']:
-            context['selected_location'] = filter['location']
-            context['selected_month'] = filter['month']
-            context['selected_year'] = filter['year']
+        if MeasurementListView.has_parameters(query_params):
+            context['selected_location'] = query_params['location']
+            context['selected_start_date'] = query_params['start_date']
+            context['selected_end_date'] = query_params['end_date']
         else:
             context['selected_location'] = context['locations'].first()
-            context['selected_month'] = MONTHS[datetime.now().month - 1]
-            context['selected_year'] = str(datetime.now().year)
+            context['selected_start_date'] = get_start_of_day().strftime('%Y-%m-%dT%H:%M')
+            context['selected_end_date'] = get_end_of_day().strftime('%Y-%m-%dT%H:%M')
         
         return context
     
@@ -63,9 +66,13 @@ class MeasurementListView(ListView):
     def get_parameters(data):
         return {
             'location': data.get('location'),
-            'month': data.get('month'),
-            'year': data.get('year'),
+            'start_date': data.get('start_date'),
+            'end_date': data.get('end_date'),
         }
+    
+    @staticmethod
+    def has_parameters(query_params):
+        return all(value is not None for value in query_params.values())
 
 
 @method_decorator(login_required, name='dispatch')
@@ -148,7 +155,7 @@ class MeasurementImportView(View):
         for row in self.reader:
             location_id = row['location_id']
             measured_value = row['measured_value']
-            registration_date = datetime.strptime(row['registration_date'], '%Y-%m-%d %H:%M:%S')
+            registration_date = make_aware(datetime.strptime(row['registration_date'], '%Y-%m-%d %H:%M:%S'))
 
             measurement = Measurement(
                 location_id=location_id,

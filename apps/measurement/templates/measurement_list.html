@@ -31,29 +31,16 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-md-2">
-                        <select name="month" class="form-control form-control-sm" id="monthSelect">
-                            {% for month in months %}
-                                {% if selected_month == month %}
-                                    <option value="{{ month }}" selected>{{ month }}</option>
-                                {% else %}
-                                    <option value="{{ month }}">{{ month }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
+                    <div class="col-md-3">
+                        <input type="datetime-local" name="start_date" class="form-control form-control-sm" 
+                                value="{{ selected_start_date }}" style="height: 38px;">
+
                     </div>
-                    <div class="col-md-2">
-                        <select name="year" class="form-control form-control-sm" id="yearSelect">
-                            {% for year in years %}
-                                {% if selected_year == year|stringformat:'s' %}
-                                    <option value="{{ year }}" selected>{{ year }}</option>
-                                {% else %}
-                                    <option value="{{ year }}">{{ year }}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
+                    <div class="col-md-3">
+                        <input type="datetime-local" name="end_date" class="form-control form-control-sm" 
+                                value="{{ selected_end_date }}" style="height: 38px;">
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <button type="submit" class="btn btn-secondary">Filtrar</button>
                     </div>
                 </div>
@@ -67,7 +54,7 @@
                         <th scope="col">Locação</th>
                         <th scope="col">Data</th>
                         <th scope="col">Medição</th>
-                        <th scope="col" class="text-center">Ação</th>
+                        <th scope="col" class="text-center" style="width: 200px;">Ação</th>
                     </tr>
                 </thead>
                 <tbody>
