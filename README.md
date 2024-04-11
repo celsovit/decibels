@@ -55,6 +55,7 @@ senha  : user
 - [Youtube: Django: Paginação + filtros](https://www.youtube.com/watch?v=eXipSfa-HOQ)
 - [Como paginar o Django com outras variáveis ​​get](https://stackoverflow.com/questions/2047622/how-to-paginate-django-with-other-get-variables/62587351#62587351)
 - [Tags e filtros de template personalizados](https://django-portuguese.readthedocs.io/en/1.0/howto/custom-template-tags.html)
+- [[Free] Deploy Django project to PythonAnywhere](https://medium.com/@4yub1k/free-deploy-django-project-to-pythonanywhere-1f3f08a6447f)
 
 
 
