@@ -166,9 +166,7 @@ https://github.com/hideraldus13/github-emoji
 _(crie o repositório remoto no GitHub)_
 
 ```bash
-$ cd ~/proj- [crispy-bootstrap4](https://pypi.org/project/crispy-bootstrap4/)
-- [Django Crispy Forms and Bootstrap 5](https://studygyaan.com/django/how-to-use-bootstrap-forms-with-django-crispy-forms)
-
+$ cd ~/proj
 $ git init
 $ git add .
 $ git commit -m "first commit"
