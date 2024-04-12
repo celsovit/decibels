@@ -23,15 +23,15 @@ class MeasurementListView(ListView):
     paginate_by = 8
 
     def get_queryset(self):
-        query_params = MeasurementListView.get_parameters(self.request.GET)
+        query_params = self.request.session.get('measurement_query_params')
         user = self.request.user
 
-        if MeasurementListView.has_parameters(query_params):
-            start_date_str = f'{query_params['start_date']}:00'
-            end_date_str = f'{query_params['end_date']}:59'
+        if query_params and self.has_parameters(query_params):
+            start_date_str = f"{query_params['start_date']}:00"
+            end_date_str = f"{query_params['end_date']}:59"
 
-            start_date = make_aware(datetime.strptime(start_date_str, '%Y-%m-%dT%H:%M:%S'))
-            end_date = make_aware(datetime.strptime(end_date_str, '%Y-%m-%dT%H:%M:%S'))
+            start_date = make_aware(datetime.strptime(start_date_str, "%Y-%m-%dT%H:%M:%S"))
+            end_date = make_aware(datetime.strptime(end_date_str, "%Y-%m-%dT%H:%M:%S"))
 
             return (
                 Measurement.objects.filter(
@@ -41,27 +41,43 @@ class MeasurementListView(ListView):
                 ).order_by('registration_date')
             )
         
-        return []
-
+        return Measurement.objects.none()
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
 
-        query_params = MeasurementListView.get_parameters(self.request.GET)
+        query_params = self.request.session.get('measurement_query_params')
 
         context['locations'] = Location.objects.filter(organization=user.organization).order_by('name')
 
-        if MeasurementListView.has_parameters(query_params):
-            context['selected_location'] = query_params['location']
-            context['selected_start_date'] = query_params['start_date']
-            context['selected_end_date'] = query_params['end_date']
-        else:
-            context['selected_location'] = context['locations'].first()
-            context['selected_start_date'] = get_start_of_day().strftime('%Y-%m-%dT%H:%M')
-            context['selected_end_date'] = get_end_of_day().strftime('%Y-%m-%dT%H:%M')
+        # if query_params and self.has_parameters(query_params):
+        context['selected_location'] = query_params['location']
+        context['selected_start_date'] = query_params['start_date']
+        context['selected_end_date'] = query_params['end_date']
+        # else:
+        #     context['selected_location'] = context['locations'].first()
+        #     context['selected_start_date'] = get_start_of_day().strftime('%Y-%m-%dT%H:%M')
+        #     context['selected_end_date'] = get_end_of_day().strftime('%Y-%m-%dT%H:%M')
         
         return context
-    
+
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.method == 'GET':
+
+            query_params_get = self.get_parameters(self.request.GET)
+            query_params_session = request.session.get('measurement_query_params')
+
+            if self.has_parameters(query_params_get):
+                request.session['measurement_query_params'] = query_params_get
+            elif not query_params_session:
+                query_params_get['start_date'] = get_start_of_day().strftime('%Y-%m-%dT%H:%M')
+                query_params_get['end_date'] = get_end_of_day().strftime('%Y-%m-%dT%H:%M')
+                request.session['measurement_query_params'] = query_params_get
+
+        return super().dispatch(request, *args, **kwargs)
+
     @staticmethod
     def get_parameters(data):
         return {
@@ -102,20 +118,17 @@ class MeasurementUpdateView(UpdateView):
         kwargs['user'] = self.request.user
         return kwargs
 
-    def get_queryset(self):
-        user = self.request.user
-        return Measurement.objects.filter(location__organization=user.organization)
-
 
 @method_decorator(login_required, name='dispatch')
 class MeasurementDeleteView(DeleteView):
     model = Measurement
-    template_name = 'measurement_delete.html'
     success_url = reverse_lazy('measurement_list')
 
-    def get_queryset(self):
-        user = self.request.user
-        return Measurement.objects.filter(location__organization=user.organization)
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
     
 
 @method_decorator(login_required, name='dispatch')

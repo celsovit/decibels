@@ -21,7 +21,7 @@
                 <thead>
                     <tr>
                         <th scope="col">Nome</th>
-                        <th scope="col" class="text-center">Ação</th>
+                        <th scope="col" class="text-center" style="width: 200px;">Ação</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,9 +32,11 @@
                             <a href="{% url 'organization_edit' item.pk %}" class="btn btn-info btn-sm mr-2">
                                 <em class="fas fa-edit"></em> Editar
                             </a>
-                            <a href="{% url 'organization_delete' item.pk %}" class="btn btn-danger btn-sm">
+                            <button type="button" class="btn btn-danger btn-sm delete-btn" 
+                                    data-item-url="{% url 'organization_delete' item.pk %}" 
+                                    data-item-name="{{ item.name }}">
                                 <em class="fas fa-trash"></em> Excluir
-                            </a>
+                            </button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -48,5 +50,38 @@
         {% endif %}
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja excluir <span id="itemName"></span>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Confirmar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".delete-btn").click(function () {
+            var url = $(this).data("item-url");
+            var itemName = $(this).data("item-name");
+            $("#itemName").text(itemName);
+            $("#confirmDeleteBtn").attr("href", url);
+            $("#confirmDeleteModal").modal("show");
+        });
+    });
+</script>
 
 {% endblock content %}

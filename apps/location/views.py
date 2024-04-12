@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 
 from .models import Location
 
@@ -38,17 +39,14 @@ class LocationUpdateView(UpdateView):
     template_name = 'location_edit.html'
     success_url = reverse_lazy('location_list')
 
-    def get_queryset(self):
-        user = self.request.user
-        return Location.objects.filter(organization=user.organization)
-
 
 @method_decorator(login_required, name='dispatch')
 class LocationDeleteView(DeleteView):
     model = Location
-    template_name = 'location_delete.html'
     success_url = reverse_lazy('location_list')
 
-    def get_queryset(self):
-        user = self.request.user
-        return Location.objects.filter(organization=user.organization)
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)

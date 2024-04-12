@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 
 from .models import SignupCode
 from .forms import SignupCodeForm, SignupCodeUpdateForm
@@ -38,6 +39,10 @@ class SignupCodeUpdateView(UpdateView):
 @method_decorator(login_required, name='dispatch')
 class SignupCodeDeleteView(DeleteView):
     model = SignupCode
-    template_name = 'signupcode_delete.html'
     success_url = reverse_lazy('signupcode_list')
 
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        success_url = self.get_success_url()
+        self.object.delete()
+        return HttpResponseRedirect(success_url)
