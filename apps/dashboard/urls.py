@@ -9,4 +9,5 @@ urlpatterns = [
     path('top-peak-times/<int:year>/', views.get_top_peak_times, name='chart-top-peak-times'),
     path('locations-average/<int:year>/', views.get_locations_average, name='chart-locations-average'),
     path('top-peak-weekdays/<int:year>/', views.get_top_peak_weekdays, name='chart-top-peak-weekdays'),
+    path('export/<int:year>/', views.save_as_excel, name='save_as_excel'),
 ]
