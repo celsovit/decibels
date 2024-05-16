@@ -57,7 +57,9 @@ def fetch_top_peak_times(organization, year, TOP_N = 5):
             .order_by('-exceeded_threshold_count')[:TOP_N]
     )
 
-    return peak_times
+    sorted_top_peak_times = sorted(peak_times, key=lambda x: x['hour'])
+
+    return sorted_top_peak_times
 
 
 def fetch_top_peak_weekdays(organization, year):
