@@ -50,33 +50,58 @@ senha  : user
 
 
 ## 📜 Referências
+
 - [Criação de App dentro de pasta específica](https://cursos.alura.com.br/forum/topico-criacao-de-app-dentro-de-pasta-especifica-216392)
+
 - [How to Use Python Decouple](https://simpleisbetterthancomplex.com/2015/11/26/package-of-the-week-python-decouple.html)
+
 - [Decloupe Project](https://pypi.org/project/python-decouple/)
-- [crispy-bootstrap4](https://pypi.org/project/crispy-bootstrap4/)
+
+- [Crispy-bootstrap4](https://pypi.org/project/crispy-bootstrap4/)
+
 - [Django Crispy Forms and Bootstrap 5](https://studygyaan.com/django/how-to-use-bootstrap-forms-with-django-crispy-forms)
+
 - [Django Login, Logout, Signup, Password Change, and Password Reset](https://learndjango.com/tutorials/django-login-and-logout-tutorial)
+
 - [Django Best Practices: Referencing the User Model](https://learndjango.com/tutorials/django-best-practices-referencing-user-model)
+
 - [Vincular Usuário](https://groups.google.com/g/django-users/c/zZWZyGePIEI)
+
 - [Log out via GET requests is deprecated and will be removed in Django 5.0](https://stackoverflow.com/questions/74896216/log-out-via-get-requests-is-deprecated-and-will-be-removed-in-django-5-0)
+
 - [Deprecation of GET method for LogoutView](https://forum.djangoproject.com/t/deprecation-of-get-method-for-logoutview/25533/4)
+
 - [Como fazer upload de arquivos com Django](https://simpleisbetterthancomplex.com/tutorial/2016/08/01/how-to-upload-files-with-django.html)
+
 - [What’s the difference between FileField, FilePathField and ImageField?](https://swesadiqul.medium.com/whats-the-difference-between-filefield-filepathfield-and-imagefield-302b2c284418)
+
 - [Matplotlib vs. Seaborn vs. Plotly: A Comparative Guide](https://medium.com/@mohsin.shaikh324/matplotlib-vs-seaborn-vs-plotly-a-comparative-guide-c99a0059c09f#:~:text=Matplotlib%20offers%20extensive%20customization%20but,Matplotlib%20might%20be%20your%20choice.)
+
 - [Arduino HTTP Request](https://arduinogetstarted.com/tutorials/arduino-http-request)
+
 - [Ethernet Shield Web Client](https://docs.arduino.cc/tutorials/ethernet-shield-rev2/web-client/)
+
 - [Como usar com Arduino – Ethernet Shield W5100 (Web server)](https://blogmasterwalkershop.com.br/arduino/arduino-utilizando-o-ethernet-shield-w5100-via-web-server)
+
 - [Full Stack Data Streaming Middleware based on Django for an IoT Use-Case](https://akpolatcem.medium.com/full-stack-data-streaming-middleware-based-on-django-for-an-iot-use-case-5f97c1d941c7)
+
 - [Tutorial Chart.js](https://www.geeksforgeeks.org/chart-js-tutorial/)
+
 - [Adding Charts to Django with Chart.js](https://testdriven.io/blog/django-charts/)
+
 - [chartjs-plugin-datalabels](https://chartjs-plugin-datalabels.netlify.app/guide/getting-started.html#installation)
+
 - [How to Add Datalabels Inside or Outside of The Pie Chart in Chart JS](https://youtu.be/B4ph2g-LqTs)
+
 - [Youtube: Django: Paginação + filtros](https://www.youtube.com/watch?v=eXipSfa-HOQ)
+
 - [Como paginar o Django com outras variáveis ​​get](https://stackoverflow.com/questions/2047622/how-to-paginate-django-with-other-get-variables/62587351#62587351)
+
 - [Tags e filtros de template personalizados](https://django-portuguese.readthedocs.io/en/1.0/howto/custom-template-tags.html)
+
 - [[Free] Deploy Django project to PythonAnywhere](https://medium.com/@4yub1k/free-deploy-django-project-to-pythonanywhere-1f3f08a6447f)
 
-
+- [REGEX: Crie e teste de forma online e interativa](https://regex101.com/)
 
 ## 📌 Dicas sobre Python/Django
 
